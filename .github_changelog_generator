@@ -1,0 +1,3 @@
+pr-wo-labels=true
+unreleased-only=true
+release-branch=master
