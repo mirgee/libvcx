@@ -344,9 +344,17 @@ build_vcx_framework() {
             rm -rf tmp
         fi
 
-        mkdir -p $OUTPUT_DIR/vcx/
-        cp -rvp vcx.framework $OUTPUT_DIR/vcx/
-        zip -r $OUTPUT_DIR/vcx.${COMBINED_LIB}_${DATETIME}_universal.zip $OUTPUT_DIR/vcx
+        UNIVERSAL_BUILD_PATH=$OUTPUT_DIR/universal/vcx
+        mkdir -p $UNIVERSAL_BUILD_PATH
+        cp -rvp vcx.framework $UNIVERSAL_BUILD_PATH
+        zip -r $OUTPUT_DIR/vcx.${COMBINED_LIB}_${DATETIME}_universal.zip $UNIVERSAL_BUILD_PATH
+
+        DEVICE_BUILD_PATH=$OUTPUT_DIR/device/vcx
+        mkdir -p $DEVICE_BUILD_PATH
+        cp -rvp vcx.framework $DEVICE_BUILD_PATH
+        lipo -extract arm64 $DEVICE_BUILD_PATH/vcx.framework/vcx -o $DEVICE_BUILD_PATH/vcx.framework/vcx
+        zip -r $OUTPUT_DIR/vcx.${COMBINED_LIB}_${DATETIME}_device.zip $DEVICE_BUILD_PATH
+
     popd
 }
 
